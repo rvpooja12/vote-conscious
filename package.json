@@ -8,12 +8,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --emptyOutDir || (echo 'BUILD FAILED' && exit 1)",
-    "lint": "eslint .",
+    "build": "vite build",
     "preview": "vite preview",
-    "start": "serve -s dist -l 8080",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
