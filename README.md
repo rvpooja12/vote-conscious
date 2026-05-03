@@ -1,16 +1,43 @@
-# React + Vite
+Vote Consciously: Agentic Civic Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Vertical: Civic Engagement & Smart Governance
 
-Currently, two official plugins are available:
+1. Approach and Logic
+Vote Consciously is an agentic ecosystem designed to solve information asymmetry in the 2026 election cycle. Unlike static portals, it uses a "Perceive-Reason-Act" loop to help users navigate complex electoral data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Logical Decision Making: The system interprets user context (EPIC ID, location metadata) to dynamically filter manifestos and candidate data.
 
-## React Compiler
+The Agentic Core: Powered by Gemini 1.5 Flash, the app reasons over unstructured policy documents to provide objective, non-partisan analysis.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. How the Solution Works
+Each module is designed for real-world usability and high-fidelity interaction:
 
-## Expanding the ESLint configuration
+Manifesto Analyst: Uses RAG (Retrieval-Augmented Generation) to provide objective, cited summaries of complex party policy documents.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The Indelible Badge: Verifies voter participation using EXIF GPS metadata from photos to issue secure, location-validated digital certificates.
+
+Power Mapper: Visualizes the direct hierarchical impact of a single vote, from the local polling booth to national leadership.
+
+Smart Registration: Simplifies the 2026 ECI guidelines into a dynamic, AI-guided workflow for new and transitioning voters.
+
+The Election Pulse: Acts as a persistent, personalized checklist to monitor critical deadlines and milestones throughout the election cycle.
+
+Booth Finder: Performs real-time EPIC ID validation to provide precise polling station locations and room-specific details.
+
+3. Evaluation Focus Areas
+Security: Implements "Zero-Storage" for PII; Voter IDs and GPS data are processed in-memory and validated via regex to ensure user privacy.
+
+Code Quality: Built with modular React components and centralized logic for high maintainability and readability.
+
+Efficiency: The repository is optimized to remain under 10 MB by using CSS-based stencils (Mehandi UI) and excluding heavy build artifacts via .gitignore.
+
+Accessibility: High-contrast design (WCAG AAA compliant) with full aria-label support and keyboard navigation for inclusive use.
+
+Google Services: Meaningful integration of Gemini 1.5 Flash for reasoning and Google Cloud Run for scalable deployment.
+
+4. Assumptions Made
+EPIC Format: Assumes a standard 10-character alphanumeric Indian Voter ID for validation logic.
+
+Mock Data: Uses a simulated "Indira Pradesh" constituency model to demonstrate logic without political bias.
+
+Temporal Context: All features are tailored for the simulated May 2026 election cycle.
