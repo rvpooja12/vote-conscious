@@ -10,8 +10,7 @@ import {
   Info, 
   ChevronRight 
 } from 'lucide-react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+// Firebase removed for Zero-PII
 import { RACE_DAY_SCHEDULE, getISTDate, fetchRaceRole, syncWithECI } from '../services/pulseService';
 
 const ElectionPulse = () => {
@@ -35,15 +34,14 @@ const ElectionPulse = () => {
   }, [expandedNode]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserData = () => {
       try {
-        const docRef = doc(db, 'pulse_state', userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setDismissedPhases(docSnap.data().dismissed || {});
+        const stored = localStorage.getItem(`pulse_state_${userId}`);
+        if (stored) {
+          setDismissedPhases(JSON.parse(stored).dismissed || {});
         }
       } catch (err) {
-        console.error("Firestore fetch error:", err);
+        console.error("Local storage fetch error:", err);
       }
     };
     fetchUserData();
@@ -64,14 +62,14 @@ const ElectionPulse = () => {
     }
   };
 
-  const dismissPhase = async (e, nodeId) => {
+  const dismissPhase = (e, nodeId) => {
     e.stopPropagation();
     const newDismissed = { ...dismissedPhases, [nodeId]: true };
     setDismissedPhases(newDismissed);
     try {
-      await setDoc(doc(db, 'pulse_state', userId), { dismissed: newDismissed }, { merge: true });
+      localStorage.setItem(`pulse_state_${userId}`, JSON.stringify({ dismissed: newDismissed }));
     } catch (err) {
-      console.error("Firestore sync error:", err);
+      console.error("Local storage sync error:", err);
     }
   };
 

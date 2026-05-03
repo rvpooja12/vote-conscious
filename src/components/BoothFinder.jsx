@@ -232,6 +232,19 @@ const BoothFinder = () => {
                   </ul>
                 </div>
               )}
+
+              {/* Map Mockup Integration */}
+              <div style={{ marginTop: '3rem', width: '100%', height: '300px', background: '#111', border: '1px solid #333' }}>
+                <iframe
+                  title="Polling Booth Location"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  src={`https://www.google.com/maps/embed/v1/place?key=MOCK_API_KEY&q=${encodeURIComponent(result.booth + ', ' + result.constituency)}&zoom=15`}
+                ></iframe>
+              </div>
             </div>
 
             <motion.button

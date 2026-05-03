@@ -1,8 +1,39 @@
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+
+// Initialize the SDK. In a real app, use import.meta.env.VITE_GEMINI_API_KEY
+const API_KEY = "MOCK_API_KEY_FOR_DEMO"; 
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+const safetySettings = [
+  {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+  },
+];
+
+const systemInstruction = "You are a highly objective, non-partisan AI agent assisting Indian voters in the 2026 elections. Provide clear, accurate, and concise civic information based on the Constitution and the Election Commission of India. Maintain absolute neutrality.";
+
 /**
  * AI Service Simulator
  * This simulates a Cloud Run backend calling Gemini 1.5 Flash.
  */
 export const getRegistrationProtocol = async () => {
+  // In a real scenario, this would call genAI.getGenerativeModel
+  // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings, systemInstruction });
+  // const result = await model.generateContent("Give me the 2026 ECI Form 6 registration protocol");
+  
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -70,7 +101,7 @@ export const verifyInk = async (imageData, lat, lng) => {
   }
 
   // Vertex AI Vision Analysis Simulation
-  // In a real app, this would call the /api/verify-ink endpoint
+  // In a real app, this would use the generative-ai SDK to analyze the image
   const systemResponse = {
     ink_detected: true,
     confidence: 0.98

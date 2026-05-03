@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ChevronRight, ExternalLink, Info, LogOut } from 'lucide-react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
-import { db, auth, googleProvider } from '../firebase';
+// Removed Firebase imports to maintain Zero-PII architecture
 import confetti from 'canvas-confetti';
 
 const TASKS = [
@@ -19,40 +17,28 @@ const TaskDrill = ({ onComplete }) => {
   const [user, setUser] = useState(null);
   
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      sessionStorage.removeItem('mock_user');
-      setUser(null);
-      setProgress({});
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
+    sessionStorage.removeItem('mock_user');
+    setUser(null);
+    setProgress({});
   };
   
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // If we have a real user, use it. 
-      // If not, only set to null if there is no mock session.
-      if (currentUser) {
-        setUser(currentUser);
-        fetchProgress(currentUser.uid);
-      } else {
-        const mockSession = sessionStorage.getItem('mock_user');
-        if (!mockSession) {
-          setUser(null);
-          setLoading(false);
-        }
-      }
-    });
-    return () => unsubscribe();
+    const mockSession = sessionStorage.getItem('mock_user');
+    if (mockSession) {
+      const mockUser = JSON.parse(mockSession);
+      setUser(mockUser);
+      fetchProgress(mockUser.uid);
+    } else {
+      setUser(null);
+      setLoading(false);
+    }
   }, []);
 
   const fetchProgress = async (uid) => {
     try {
-      const docRef = doc(db, 'user_progress', uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProgress(docSnap.data());
+      const stored = localStorage.getItem(`progress_${uid}`);
+      if (stored) {
+        setProgress(JSON.parse(stored));
       }
     } catch (err) {
       console.error("Error fetching progress:", err);
@@ -62,37 +48,19 @@ const TaskDrill = ({ onComplete }) => {
   };
 
   const handleLogin = async () => {
-    try {
-      // Attempt real Firebase login
-      await signInWithPopup(auth, googleProvider);
-    } catch (err) {
-      console.warn("Real Firebase Login failed (likely due to simulated keys). Initializing MOCK AUTH for demonstration.");
-      
-      // MOCK FALLBACK for Prototype/Demo
-      // We simulate the Firebase user object
-      const mockUser = {
-        uid: 'mock_user_123',
-        displayName: 'Conscious Voter',
-        email: 'voter@example.com'
-      };
-      
-      setUser(mockUser);
-      fetchProgress(mockUser.uid);
-      
-      // Store in session to persist across reloads in mock mode
-      sessionStorage.setItem('mock_user', JSON.stringify(mockUser));
-    }
+    // MOCK LOGIN for Prototype/Demo (Zero-PII)
+    const mockUser = {
+      uid: 'mock_user_123',
+      displayName: 'Conscious Voter',
+      email: 'voter@example.com'
+    };
+    
+    setUser(mockUser);
+    fetchProgress(mockUser.uid);
+    
+    // Store in session to persist across reloads in mock mode
+    sessionStorage.setItem('mock_user', JSON.stringify(mockUser));
   };
-
-  // Check for mock session on mount
-  useEffect(() => {
-    const mockSession = sessionStorage.getItem('mock_user');
-    if (mockSession && !user) {
-      const mockUser = JSON.parse(mockSession);
-      setUser(mockUser);
-      fetchProgress(mockUser.uid);
-    }
-  }, []);
 
   const toggleTask = async (taskId) => {
     if (!user) return; // Gate task toggling
@@ -100,9 +68,9 @@ const TaskDrill = ({ onComplete }) => {
     const newProgress = { ...progress, [taskId]: !progress[taskId] };
     setProgress(newProgress);
     
-    // Sync to Firestore
+    // Sync to localStorage
     try {
-      await setDoc(doc(db, 'user_progress', user.uid), newProgress);
+      localStorage.setItem(`progress_${user.uid}`, JSON.stringify(newProgress));
     } catch (err) {
       console.error("Error saving progress:", err);
     }

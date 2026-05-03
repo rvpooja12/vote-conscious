@@ -2,8 +2,7 @@
  * Booth Service (Strict Validation Edition)
  * Manages EPIC ID lookups with double-guard regex validation.
  */
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+// Removed Firebase imports for Zero-PII
 
 // Strict Format Constant: 3 Alphabets + 7 Digits
 export const EPIC_FORMAT = /^[A-Z]{3}[0-9]{7}$/;
@@ -66,14 +65,12 @@ export const fetchBoothData = async (epicId) => {
 
 // Simulated Gemini 1.5 Flash Guide Engine
 export const fetchBoothGuide = async (boothData) => {
-  const userId = localStorage.getItem('voter_uid') || 'anonymous';
   const cacheId = `guide_${boothData.epic}`;
   
   try {
-    const docRef = doc(db, 'verified_voter_data', userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists() && docSnap.data()[cacheId]) {
-      return docSnap.data()[cacheId];
+    const cachedData = localStorage.getItem(cacheId);
+    if (cachedData) {
+      return JSON.parse(cachedData);
     }
   } catch (err) {
     console.error("Cache fetch error:", err);
@@ -88,11 +85,7 @@ export const fetchBoothGuide = async (boothData) => {
   ];
 
   try {
-    await setDoc(doc(db, 'verified_voter_data', userId), {
-      [cacheId]: guide,
-      last_lookup: boothData,
-      timestamp: new Date().toISOString()
-    }, { merge: true });
+    localStorage.setItem(cacheId, JSON.stringify(guide));
   } catch (err) {
     console.error("Persistence error:", err);
   }

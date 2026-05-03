@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getPerformance } from "firebase/performance";
 
 const firebaseConfig = {
   apiKey: "SIMULATED_KEY",
@@ -12,8 +11,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+export const perf = getPerformance(app);
 
-console.log("Firebase, Firestore & Auth initialized successfully (Simulated)");
+console.log("Firebase Performance Monitoring initialized successfully (Stateless)");
