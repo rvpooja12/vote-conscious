@@ -24,3 +24,7 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/vote-conscious'
+
+# Add this block to resolve the Service Account logging requirement
+options:
+  logging: CLOUD_LOGGING_ONLY
