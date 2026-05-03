@@ -1,1 +1,2 @@
 // Firebase Mock
+export default {};

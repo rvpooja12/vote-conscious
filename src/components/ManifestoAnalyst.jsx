@@ -1,3 +1,1 @@
-export default function ManifestoAnalyst() {
-    return <div className="manifesto-stub">Manifesto Analyst Loaded</div>;
-}
+export default function ManifestoAnalyst() { return <div>Manifesto Analyst</div>; }

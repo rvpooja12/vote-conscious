@@ -1,3 +1,1 @@
-export default function Hero() {
-    return <div className="hero">Hero Section Loaded</div>;
-}
+export default function Hero() { return <div>Hero Section</div>; }
