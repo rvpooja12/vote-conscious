@@ -1,1 +1,3 @@
-export default function Component() { return <div>Component</div>; }
+export default function IndelibleBadge() {
+    return <div className="badge-stub">Indelible Badge Loaded</div>;
+}

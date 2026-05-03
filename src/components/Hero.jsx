@@ -1,1 +1,3 @@
-export default function Component() { return <div>Component</div>; }
+export default function Hero() {
+    return <div className="hero">Hero Section Loaded</div>;
+}

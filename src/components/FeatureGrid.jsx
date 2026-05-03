@@ -1,1 +1,3 @@
-export default function Component() { return <div>Component</div>; }
+export default function FeatureGrid() {
+    return <div className="feature-grid">Feature Grid Loaded</div>;
+}

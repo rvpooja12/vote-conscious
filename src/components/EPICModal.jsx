@@ -1,1 +1,3 @@
-export default function Component() { return <div>Component</div>; }
+export default function EPICModal() {
+    return <div className="modal-stub">EPIC Modal Loaded</div>;
+}
